@@ -1,11 +1,14 @@
 {
   "manifest_version": 3,
-
   "name": "Wordle Plugin",
   "description": "This extension will filter possible Wordle words based on known letters",
   "version": "1.0",
-
+  "action": {},
   "permissions": [
-    "activeTab"
-  ]
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }
