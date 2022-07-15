@@ -4,11 +4,9 @@
   "description": "This extension will filter possible Wordle words based on known letters",
   "version": "1.0",
   "action": {},
-  "permissions": [
-    "activeTab",
-    "scripting"
-  ],
+  "permissions": ["activeTab", "scripting"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "mode": "module"
   }
 }

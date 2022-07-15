@@ -16,8 +16,10 @@ export function wordleAlgorithm(
           word[index] !== requiredMatch.letter &&
           word.includes(requiredMatch.letter)
         );
-      } else {
+      } else if (requiredMatch.position > 0) {
         return word[index] === requiredMatch.letter;
+      } else {
+        return !word.includes(requiredMatch.letter);
       }
     });
   });

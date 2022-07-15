@@ -4,6 +4,7 @@ module.exports = function(config) {
     files: [
       "src/**/*.ts" // *.tsx for React Jsx
     ],
+    exclude: ["src/**/background.ts"],
     preprocessors: {
       "**/*.ts": "karma-typescript" // *.tsx for React Jsx
     },

@@ -29,6 +29,12 @@ describe("Wordle Plugin", function () {
     assertResultMatchesCondition(result, ["bc"]);
   });
 
+  it("should return words with the letter not present", function() {
+    const wordList = ["abd", "bc", "cad"];
+    const result = wordleAlgorithm(wordList, [{letter: "d", position: 0}])
+    assertResultMatchesCondition(result, ["bc"])
+  })
+
   it("should return words with the letter at the specified position", function () {
     const wordList = ["ab", "bc", "ca"];
     const result = wordleAlgorithm(wordList, [{ letter: "a", position: 1 }]);
