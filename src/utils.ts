@@ -20,18 +20,27 @@ export function getTiles(): { text: string; state: string }[] {
 
 export function convertToKnownLetters(
   tiles: { text: string; state: string }[]
-): { letter: string; position: number }[] {
-  const knownLetters: { letter: string; position: number }[] = [];
+): Map<string, Set<number>> {
+  const knownLetters = new Map<string, Set<number>>();
   for (let i = 0; i < tiles.length; i++) {
+    const tileState = tiles[i].state;
+    const tileText = tiles[i].text;
     let rowNumber = (i % 5) + 1;
 
-    if (tiles[i].state === TileState.Absent) {
+    if (tileState === TileState.Absent) {
       rowNumber = 0;
-    } else if (tiles[i].state === TileState.Present) {
+    } else if (tileState === TileState.Present) {
       rowNumber *= -1;
     }
 
-    knownLetters.push({ letter: tiles[i].text, position: rowNumber });
+    if (knownLetters.has(tileText)) {
+      knownLetters.set(
+        tileText,
+        new Set<number>(knownLetters.get(tileText)).add(rowNumber)
+      );
+    } else {
+      knownLetters.set(tileText, new Set<number>().add(rowNumber));
+    }
   }
 
   return knownLetters;

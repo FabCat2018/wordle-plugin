@@ -1,25 +1,35 @@
 export function wordleAlgorithm(
   wordList: string[],
-  knownLetters: { letter: string; position: number }[]
+  knownLetters: Map<string, Set<number>>
 ): string[] {
-  if (knownLetters.length === 0) {
+  if (knownLetters.size === 0) {
     return wordList;
   }
 
-  let filteredList = wordList;
-  knownLetters.forEach((requiredMatch) => {
+  let filteredList = new Array(...wordList);
+  knownLetters.forEach((positions, letter) => {
+    const correctPositions = Array.from(positions.values())
+      .filter((n) => n > 0)
+      .map((n) => n - 1);
+    const incorrectPositions = Array.from(positions.values())
+      .filter((n) => n < 0)
+      .map((n) => -n - 1);
+    const notPresent = positions.has(0);
     filteredList = filteredList.filter((word) => {
-      let index = Math.abs(requiredMatch.position) - 1;
-
-      if (requiredMatch.position < 0) {
-        return (
-          word[index] !== requiredMatch.letter &&
-          word.includes(requiredMatch.letter)
-        );
-      } else if (requiredMatch.position > 0) {
-        return word[index] === requiredMatch.letter;
+      if (notPresent && positions.size === 1) {
+        return !word.includes(letter);
       } else {
-        return !word.includes(requiredMatch.letter);
+        let result: boolean = true;
+        correctPositions.forEach((pos) => (result &&= word[pos] === letter));
+        incorrectPositions.forEach(
+          (pos) => (result &&= word[pos] !== letter && word.includes(letter))
+        );
+
+        if (notPresent) {
+          result &&= word.lastIndexOf(letter) === word.indexOf(letter);
+        }
+
+        return result;
       }
     });
   });
